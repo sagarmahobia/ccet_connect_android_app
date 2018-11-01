@@ -1,4 +1,4 @@
-package com.sagar.ccetmobileapp.activities;
+package com.sagar.ccetmobileapp.activities.account;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

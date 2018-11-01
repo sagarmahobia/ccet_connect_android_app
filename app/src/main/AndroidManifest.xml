@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sagar.ccetmobileapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -14,10 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.AccountingActivity">
+        <activity android:name=".activities.account.AccountingActivity" />
+        <activity
+            android:name=".activities.home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
