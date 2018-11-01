@@ -11,5 +11,5 @@ import javax.inject.Scope;
 
 @Retention(RetentionPolicy.CLASS)
 @Scope
-public @interface AccountingActivityScope {
+@interface AccountingActivityScope {
 }

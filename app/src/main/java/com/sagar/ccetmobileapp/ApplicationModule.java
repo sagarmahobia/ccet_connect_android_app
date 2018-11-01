@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -38,5 +40,10 @@ public class ApplicationModule {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    @ApplicationScope
+    @Provides
+    Gson gson() {
+        return new Gson();
+    }
 
 }

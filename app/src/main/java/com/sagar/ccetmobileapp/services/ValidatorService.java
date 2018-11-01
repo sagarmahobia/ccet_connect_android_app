@@ -24,7 +24,7 @@ public class ValidatorService {
     private final Pattern passwordPattern;
 
     @Inject
-    public ValidatorService() {
+    ValidatorService() {
         emailPattern = Pattern.compile(EMAIL_REGEX);
         passwordPattern = Pattern.compile(PASSWORD_REGEX);
     }
@@ -34,11 +34,7 @@ public class ValidatorService {
     }
 
     public boolean isValidPassword(String password1, String password2) {
-        boolean matches = passwordPattern.matcher(password1).matches();
-        return password1 != null
-                && password2 != null
-                && password1.equals(password2)
-                && matches;
+        return password1.equals(password2) && passwordPattern.matcher(password1).matches();
     }
 
     public boolean isValidPassword(String password1) {

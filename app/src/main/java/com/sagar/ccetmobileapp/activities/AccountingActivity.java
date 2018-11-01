@@ -2,14 +2,17 @@ package com.sagar.ccetmobileapp.activities;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
@@ -24,10 +27,9 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
     @Inject
     Contract.Presenter presenter;
 
-
     /*Sign Up Container variables*/
     @BindView(R.id.sign_up_container)
-    ConstraintLayout signUpContainer;
+    ScrollView signUpContainer;
 
     @BindView(R.id.first_name)
     EditText firstNameET;
@@ -83,6 +85,9 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
     Button confirmOtpButton;
 
 
+    @BindView(R.id.account_progress_bar)
+    ProgressBar progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +95,11 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
         setContentView(R.layout.activity_accounting);
 
         ButterKnife.bind(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         DaggerAccountingActivityComponent.
                 builder().
@@ -138,7 +148,7 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
             if (selectedItemPosition == 0 || selectedItemPosition == AdapterView.INVALID_POSITION
                     || selectedItemPosition1 == 0 || selectedItemPosition1 == AdapterView.INVALID_POSITION
                     ) {
-                //todo invalid input
+                showMessage("Please select valid admission year and semester.");
                 return;
             }
             String admissionSem = admissionSemSpinner.getSelectedItem().toString().substring(0, 1);
@@ -165,53 +175,58 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
     }
 
     private void setUpAlreadyHaveAccountButton() {
-        alreadyHaveAccountButton.setOnClickListener(v -> {
-            signUpContainer.setVisibility(View.GONE);
-            signInContainer.setVisibility(View.VISIBLE);
-        });
+        alreadyHaveAccountButton.setOnClickListener(v -> showSignInScreen());
     }
 
     private void setUpDontHaveAccountButton() {
-        dontHaveAccountButton.setOnClickListener(v -> {
-            signInContainer.setVisibility(View.GONE);
-            signUpContainer.setVisibility(View.VISIBLE);
-        });
+        dontHaveAccountButton.setOnClickListener(v -> showSignUpScreen());
 
     }
 
+
     @Override
-    public void askForOtp() {
+    public void showSignUpScreen() {
+        signUpContainer.setVisibility(View.VISIBLE);
+        signUpOtpContainer.setVisibility(View.GONE);
+        signInContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSignInScreen() {
+        signUpContainer.setVisibility(View.GONE);
+        signUpOtpContainer.setVisibility(View.GONE);
+        signInContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showSignUpOtpScreen() {
         signUpContainer.setVisibility(View.GONE);
         signUpOtpContainer.setVisibility(View.VISIBLE);
+        signInContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+        signUpContainer.setVisibility(View.GONE);
+        signUpOtpContainer.setVisibility(View.GONE);
+        signInContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
     }
 
     @Override
     public void onSuccessSignIn() {
-        //todo
-        Log.d("Signed","In");
+        showMessage("You have signed in");
+        this.finish();
     }
+
+    @Override
+    public void showMessage(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

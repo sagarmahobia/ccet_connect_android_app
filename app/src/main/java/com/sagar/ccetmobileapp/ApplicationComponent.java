@@ -3,6 +3,7 @@ package com.sagar.ccetmobileapp;
 import android.content.SharedPreferences;
 
 import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
+import com.sagar.ccetmobileapp.services.ErrorConverterService;
 import com.sagar.ccetmobileapp.services.ValidatorService;
 
 import dagger.Component;
@@ -23,4 +24,6 @@ public interface ApplicationComponent {
     CCETRepositoryInteractor ccetRepositoryInteractor();
 
     ValidatorService validatorService();
+
+    ErrorConverterService errorConverterService();
 }

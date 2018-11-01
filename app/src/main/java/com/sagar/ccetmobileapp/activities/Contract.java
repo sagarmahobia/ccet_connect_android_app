@@ -7,10 +7,20 @@ import android.arch.lifecycle.LifecycleObserver;
  */
 public interface Contract {
     interface View {
-        void askForOtp();
+
+        void showProgress();
+
+        void hideProgress();
 
         void onSuccessSignIn();
 
+        void showMessage(String text);
+
+        void showSignUpScreen();
+
+        void showSignInScreen();
+
+        void showSignUpOtpScreen();
     }
 
     interface Presenter extends LifecycleObserver {
