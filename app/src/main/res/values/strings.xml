@@ -23,5 +23,6 @@
     <string name="nav_header_subtitle">Christian College of Engineering &amp; Technology</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="assignments">Assignments</string>
 
 </resources>

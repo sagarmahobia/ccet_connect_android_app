@@ -2,7 +2,6 @@ package com.sagar.ccetmobileapp.activities.account;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.content.SharedPreferences;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.sagar.ccetmobileapp.network.errors.ErrorCode;
@@ -12,6 +11,7 @@ import com.sagar.ccetmobileapp.network.models.OtpModel;
 import com.sagar.ccetmobileapp.network.models.SignInModel;
 import com.sagar.ccetmobileapp.network.models.SignUpModel;
 import com.sagar.ccetmobileapp.services.ErrorConverterService;
+import com.sagar.ccetmobileapp.services.TokenService;
 import com.sagar.ccetmobileapp.services.ValidatorService;
 
 import javax.inject.Inject;
@@ -41,7 +41,7 @@ class Presenter implements Contract.Presenter {
     private CompositeDisposable disposable;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    TokenService tokenService;
 
     private String signUpEmail;
 
@@ -121,10 +121,7 @@ class Presenter implements Contract.Presenter {
                                 default:
                                     view.showMessage("Something went wrong.");
                             }
-
-                            view.showMessage(e.getErrorCode() + " " + e.getMessage());
-                            //todo
-                        }
+                         }
                     }
                 }));
 
@@ -146,7 +143,7 @@ class Presenter implements Contract.Presenter {
                 .subscribe(authStatus -> {
                     view.hideProgress();
                         String token = authStatus.getToken();
-                        saveToken(token);
+                    tokenService.saveToken(token);
                         view.onSuccessSignIn();
                 }, error -> {
                     view.hideProgress();
@@ -192,7 +189,7 @@ class Presenter implements Contract.Presenter {
         disposable.add(interactor.verifyOtp(otpModel).
                 subscribe(authStatus -> {
                     view.hideProgress();
-                        saveToken(authStatus.getToken());
+                    tokenService.saveToken(authStatus.getToken());
                     view.onSuccessSignIn();
                 }, error -> {
                     view.hideProgress();
@@ -216,11 +213,6 @@ class Presenter implements Contract.Presenter {
                     }
                 }));
 
-    }
-
-
-    private void saveToken(String token) {
-        sharedPreferences.edit().putString("token", token).apply();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

@@ -5,9 +5,11 @@ import com.sagar.ccetmobileapp.network.models.OtpModel;
 import com.sagar.ccetmobileapp.network.models.SignInModel;
 import com.sagar.ccetmobileapp.network.models.SignUpModel;
 import com.sagar.ccetmobileapp.network.models.Status;
+import com.sagar.ccetmobileapp.network.models.assignments.Assignments;
 
 import io.reactivex.Single;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -23,4 +25,7 @@ public interface CCETRepository {
 
     @POST("api/v1/public/user/verify_otp")
     Single<AuthStatus> verifyOtp(@Body OtpModel otpModel);
+
+    @GET("/api/v1/protected/assignments")
+    Single<Assignments> getAssignments();
 }

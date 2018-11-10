@@ -1,9 +1,8 @@
 package com.sagar.ccetmobileapp;
 
-import android.content.SharedPreferences;
-
 import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
 import com.sagar.ccetmobileapp.services.ErrorConverterService;
+import com.sagar.ccetmobileapp.services.TokenService;
 import com.sagar.ccetmobileapp.services.ValidatorService;
 
 import dagger.Component;
@@ -19,7 +18,7 @@ public interface ApplicationComponent {
 
     void inject(Application application);
 
-    SharedPreferences sharedPreferences();
+    TokenService tokenService();
 
     CCETRepositoryInteractor ccetRepositoryInteractor();
 

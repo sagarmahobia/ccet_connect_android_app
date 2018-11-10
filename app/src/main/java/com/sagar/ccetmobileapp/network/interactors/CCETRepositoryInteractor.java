@@ -6,6 +6,7 @@ import com.sagar.ccetmobileapp.network.models.OtpModel;
 import com.sagar.ccetmobileapp.network.models.SignInModel;
 import com.sagar.ccetmobileapp.network.models.SignUpModel;
 import com.sagar.ccetmobileapp.network.models.Status;
+import com.sagar.ccetmobileapp.network.models.assignments.Assignments;
 import com.sagar.ccetmobileapp.network.repository.CCETRepository;
 
 import javax.inject.Inject;
@@ -48,6 +49,13 @@ public class CCETRepositoryInteractor implements CCETRepository {
     @Override
     public Single<AuthStatus> verifyOtp(OtpModel otpModel) {
         return repository.verifyOtp(otpModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<Assignments> getAssignments() {
+        return repository.getAssignments()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
