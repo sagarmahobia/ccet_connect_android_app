@@ -19,6 +19,7 @@ import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
 import com.sagar.ccetmobileapp.activities.account.AccountingActivity;
 import com.sagar.ccetmobileapp.activities.assignments.AssignmentsActivity;
+import com.sagar.ccetmobileapp.activities.notices.NoticesActivity;
 import com.sagar.ccetmobileapp.services.TokenService;
 
 import javax.inject.Inject;
@@ -80,7 +81,11 @@ public class HomeActivity extends AppCompatActivity
         getLifecycle().addObserver(presenter);
 
         noticeBoardCard.setOnClickListener(v -> {
-            //todo
+            if (tokenService.hasToken()) {
+                startNewActivity(NoticesActivity.class);
+            } else {
+                startNewActivity(AccountingActivity.class);
+            }
         });
 
         assignmentsCard.setOnClickListener(v -> {
@@ -107,7 +112,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.profile) {
             if (tokenService.hasToken()) {
                 showMessage("Already Signed In");

@@ -6,6 +6,7 @@ import com.sagar.ccetmobileapp.network.models.SignInModel;
 import com.sagar.ccetmobileapp.network.models.SignUpModel;
 import com.sagar.ccetmobileapp.network.models.Status;
 import com.sagar.ccetmobileapp.network.models.assignments.Assignments;
+import com.sagar.ccetmobileapp.network.models.notices.Notices;
 
 import io.reactivex.Single;
 import retrofit2.http.Body;
@@ -28,4 +29,7 @@ public interface CCETRepository {
 
     @GET("/api/v1/protected/assignments")
     Single<Assignments> getAssignments();
+
+    @GET("api/v1/protected/notices")
+    Single<Notices> getNoticesSingle();
 }

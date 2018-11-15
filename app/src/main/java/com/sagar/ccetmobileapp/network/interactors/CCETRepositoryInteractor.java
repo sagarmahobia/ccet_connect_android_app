@@ -7,6 +7,7 @@ import com.sagar.ccetmobileapp.network.models.SignInModel;
 import com.sagar.ccetmobileapp.network.models.SignUpModel;
 import com.sagar.ccetmobileapp.network.models.Status;
 import com.sagar.ccetmobileapp.network.models.assignments.Assignments;
+import com.sagar.ccetmobileapp.network.models.notices.Notices;
 import com.sagar.ccetmobileapp.network.repository.CCETRepository;
 
 import javax.inject.Inject;
@@ -56,6 +57,13 @@ public class CCETRepositoryInteractor implements CCETRepository {
     @Override
     public Single<Assignments> getAssignments() {
         return repository.getAssignments()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<Notices> getNoticesSingle() {
+        return repository.getNoticesSingle()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
