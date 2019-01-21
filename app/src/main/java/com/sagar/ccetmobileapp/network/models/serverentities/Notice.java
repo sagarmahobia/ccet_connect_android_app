@@ -1,4 +1,4 @@
-package com.sagar.ccetmobileapp.network.models.notices;
+package com.sagar.ccetmobileapp.network.models.serverentities;
 
 /**
  * Created by SAGAR MAHOBIA on 14-Nov-18. at 13:02

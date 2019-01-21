@@ -1,10 +1,10 @@
 package com.sagar.ccetmobileapp;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.sagar.ccetmobileapp.network.repository.CCETRepository;
+import com.sagar.ccetmobileapp.services.TokenService;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -22,12 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by SAGAR MAHOBIA on 01-Jul-18. at 12:24
  */
 @Module(includes = ApplicationModule.class)
-public class NetworkModule {
+class NetworkModule {
     private static final String CCETEndPoint = "http://192.168.43.76:8888/";
 
     @Provides
     @ApplicationScope
-    Interceptor provideInterceptor(SharedPreferences sharedPreferences) {
+    Interceptor provideInterceptor(TokenService tokenService) {
         return chain -> {
             Request original = chain.request();
             HttpUrl originalHttpUrl = original.url();
@@ -40,8 +40,8 @@ public class NetworkModule {
             Request.Builder url = original.newBuilder()
                     .url(originalHttpUrl);
 
-            String token = sharedPreferences.getString("token", "");
-            if (!token.equalsIgnoreCase("")) {
+            if (tokenService.hasToken()) {
+                String token = tokenService.getToken();
                 url.addHeader("Authorization", "Bearer " + token);
             }
             Request request = url.build();

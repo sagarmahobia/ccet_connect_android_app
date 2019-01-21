@@ -1,13 +1,12 @@
 package com.sagar.ccetmobileapp.network.interactors;
 
 import com.sagar.ccetmobileapp.ApplicationScope;
+import com.sagar.ccetmobileapp.network.models.Assignments;
 import com.sagar.ccetmobileapp.network.models.AuthStatus;
-import com.sagar.ccetmobileapp.network.models.OtpModel;
-import com.sagar.ccetmobileapp.network.models.SignInModel;
-import com.sagar.ccetmobileapp.network.models.SignUpModel;
-import com.sagar.ccetmobileapp.network.models.Status;
-import com.sagar.ccetmobileapp.network.models.assignments.Assignments;
-import com.sagar.ccetmobileapp.network.models.notices.Notices;
+import com.sagar.ccetmobileapp.network.models.Notices;
+import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
+import com.sagar.ccetmobileapp.network.models.serverentities.Otp;
+import com.sagar.ccetmobileapp.network.models.serverentities.User;
 import com.sagar.ccetmobileapp.network.repository.CCETRepository;
 
 import javax.inject.Inject;
@@ -32,31 +31,31 @@ public class CCETRepositoryInteractor implements CCETRepository {
     }
 
     @Override
-    public Single<Status> signUp(SignUpModel signUpModel) {
+    public Single<Otp> signUp(User user) {
 
-        return repository.signUp(signUpModel)
+        return repository.signUp(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
     }
 
     @Override
-    public Single<AuthStatus> signIn(SignInModel signInModel) {
-        return repository.signIn(signInModel)
+    public Single<AuthStatus> signIn(User user) {
+        return repository.signIn(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Single<AuthStatus> verifyOtp(OtpModel otpModel) {
-        return repository.verifyOtp(otpModel)
+    public Single<AuthStatus> verifyOtp(Otp otp) {
+        return repository.verifyOtp(otp)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Single<Assignments> getAssignments() {
-        return repository.getAssignments()
+    public Single<Assignments> getAssignments(Assignment assignment) {
+        return repository.getAssignments(assignment)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

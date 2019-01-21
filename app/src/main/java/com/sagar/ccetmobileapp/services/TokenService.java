@@ -21,11 +21,15 @@ public class TokenService {
     }
 
     public boolean hasToken() {
-        return !sharedPreferences.getString("token", "").isEmpty();
+        return !getToken().isEmpty();
     }
 
     public void saveToken(String token) {
         sharedPreferences.edit().putString("token", token).apply();
+    }
+
+    public String getToken() {
+        return sharedPreferences.getString("token", "");
     }
 
     public void removeToken() {

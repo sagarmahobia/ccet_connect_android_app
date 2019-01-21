@@ -5,7 +5,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.sagar.ccetmobileapp.activities.notices.adapter.NoticeCard;
 import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
-import com.sagar.ccetmobileapp.network.models.notices.Notice;
+import com.sagar.ccetmobileapp.network.models.serverentities.Notice;
 
 import java.util.List;
 

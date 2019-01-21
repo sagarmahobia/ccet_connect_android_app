@@ -1,4 +1,6 @@
-package com.sagar.ccetmobileapp.network.models.notices;
+package com.sagar.ccetmobileapp.network.models;
+
+import com.sagar.ccetmobileapp.network.models.serverentities.Notice;
 
 import java.util.List;
 

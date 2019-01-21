@@ -5,13 +5,10 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.sagar.ccetmobileapp.Application;
@@ -30,18 +27,6 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
     /*Sign Up Container variables*/
     @BindView(R.id.sign_up_container)
     ScrollView signUpContainer;
-
-    @BindView(R.id.first_name)
-    EditText firstNameET;
-
-    @BindView(R.id.last_name)
-    EditText lastNameET;
-
-    @BindView(R.id.admission_year)
-    Spinner admissionYearSpinner;
-
-    @BindView(R.id.admission_semester)
-    Spinner admissionSemSpinner;
 
     @BindView(R.id.email)
     EditText emailET;
@@ -110,20 +95,6 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
 
         getLifecycle().addObserver(presenter);
 
-        String[] semesters = getResources().getStringArray(R.array.semesters);
-
-        ArrayAdapter<String> sa = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                semesters);
-        sa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        admissionSemSpinner.setAdapter(sa);
-
-        String[] years = getResources().getStringArray(R.array.years);
-
-        ArrayAdapter<String> ya = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                years);
-        ya.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        admissionYearSpinner.setAdapter(ya);
-
         setUpSignUpButton();
         setUpSignInButton();
         setUpDontHaveAccountButton();
@@ -134,27 +105,12 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
 
     private void setUpSignUpButton() {
         signUpButton.setOnClickListener(v -> {
-            String firstName = firstNameET.getText().toString();
-            String lastName = lastNameET.getText().toString();
 
             String email = emailET.getText().toString();
             String password = passwordET.getText().toString();
             String confirmPassword = confirmPasswordET.getText().toString();
 
-            int selectedItemPosition = admissionYearSpinner.getSelectedItemPosition();
-            int selectedItemPosition1 = admissionSemSpinner.getSelectedItemPosition();
-
-
-            if (selectedItemPosition == 0 || selectedItemPosition == AdapterView.INVALID_POSITION
-                    || selectedItemPosition1 == 0 || selectedItemPosition1 == AdapterView.INVALID_POSITION
-                    ) {
-                showMessage("Please select valid admission year and semester.");
-                return;
-            }
-            String admissionSem = admissionSemSpinner.getSelectedItem().toString().substring(0, 1);
-            String admissionYear = admissionYearSpinner.getSelectedItem().toString();
-
-            presenter.onSingUp(firstName, lastName, email, password, confirmPassword, admissionYear, admissionSem);
+            presenter.onSingUp(email, password, confirmPassword);
         });
     }
 

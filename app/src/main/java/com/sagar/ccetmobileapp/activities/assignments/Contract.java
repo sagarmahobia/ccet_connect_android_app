@@ -2,7 +2,7 @@ package com.sagar.ccetmobileapp.activities.assignments;
 
 import android.arch.lifecycle.LifecycleObserver;
 
-import com.sagar.ccetmobileapp.network.models.assignments.Assignment;
+import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class Contract {
     }
 
     interface Presenter extends LifecycleObserver {
-        void load();
+        void load(int branchId, int semester);
 
     }
 }

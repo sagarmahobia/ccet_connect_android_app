@@ -1,11 +1,21 @@
-package com.sagar.ccetmobileapp.network.models.assignments;
+package com.sagar.ccetmobileapp.network.models.serverentities;
 
 public class Assignment {
 
+    private int id;
+    private int branchId;
     private int semester;
     private int assignmentNo;
     private String lastDate;
     private String link;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getSemester() {
         return semester;
@@ -37,6 +47,14 @@ public class Assignment {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
     }
 
 }
