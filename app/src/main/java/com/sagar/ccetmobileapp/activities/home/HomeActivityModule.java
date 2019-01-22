@@ -10,18 +10,6 @@ import dagger.Provides;
 @Module
 public class HomeActivityModule {
 
-    private HomeActivity homeActivity;
-
-    HomeActivityModule(HomeActivity homeActivity) {
-        this.homeActivity = homeActivity;
-    }
-
-    @Provides
-    @HomeActivityScope
-    HomeActivity homeActivity() {
-        return homeActivity;
-    }
-
     @Provides
     @HomeActivityScope
     Contract.View view(HomeActivity homeActivity) {

@@ -13,25 +13,13 @@ import dagger.Provides;
  * Created by SAGAR MAHOBIA on 29-Oct-18. at 16:44
  */
 
-@Module
-public class ApplicationModule {
+@Module(includes = NetworkModule.class)
+class ApplicationModule {
 
-    private Application application;
-
-    ApplicationModule(Application application) {
-        this.application = application;
-    }
-
-    @ApplicationScope
     @Provides
-    public Application getApplication() {
+    @ApplicationScope
+    Context provideContext(android.app.Application application) {
         return application;
-    }
-
-    @ApplicationScope
-    @Provides
-    public Context getContext() {
-        return application.getApplicationContext();
     }
 
     @ApplicationScope
@@ -45,5 +33,4 @@ public class ApplicationModule {
     Gson gson() {
         return new Gson();
     }
-
 }

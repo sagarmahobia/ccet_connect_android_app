@@ -16,7 +16,7 @@ public class TokenService {
     private SharedPreferences sharedPreferences;
 
     @Inject
-    public TokenService(SharedPreferences sharedPreferences) {
+    TokenService(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 

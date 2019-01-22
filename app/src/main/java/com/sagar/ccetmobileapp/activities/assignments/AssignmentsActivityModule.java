@@ -8,19 +8,7 @@ import dagger.Provides;
  */
 
 @Module
-public class AssignmentsModule {
-
-    private AssignmentsActivity assignmentsActivity;
-
-    AssignmentsModule(AssignmentsActivity assignmentsActivity) {
-        this.assignmentsActivity = assignmentsActivity;
-    }
-
-    @Provides
-    @AssignmentsScope
-    AssignmentsActivity assignmentsActivity() {
-        return assignmentsActivity;
-    }
+public class AssignmentsActivityModule {
 
     @Provides
     @AssignmentsScope
@@ -33,6 +21,5 @@ public class AssignmentsModule {
     Contract.Presenter presenter(Presenter presenter) {
         return presenter;
     }
-
 
 }

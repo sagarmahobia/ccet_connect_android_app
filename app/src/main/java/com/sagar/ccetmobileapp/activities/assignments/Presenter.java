@@ -18,18 +18,16 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @AssignmentsScope
 public class Presenter implements Contract.Presenter {
+    private Contract.View view;
 
-    @Inject
-    Contract.View view;
-
-    @Inject
-    CCETRepositoryInteractor interactor;
+    private CCETRepositoryInteractor interactor;
 
     private CompositeDisposable disposable;
 
     @Inject
-    public Presenter(AssignmentsComponent component) {
-        component.inject(this);
+    public Presenter(Contract.View view, CCETRepositoryInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

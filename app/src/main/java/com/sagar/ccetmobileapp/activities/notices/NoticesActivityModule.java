@@ -10,18 +10,6 @@ import dagger.Provides;
 @Module
 public class NoticesActivityModule {
 
-    private NoticesActivity noticesActivity;
-
-    NoticesActivityModule(NoticesActivity noticesActivity) {
-        this.noticesActivity = noticesActivity;
-    }
-
-    @Provides
-    @NoticeActivityScope
-    NoticesActivity noticesActivity() {
-        return noticesActivity;
-    }
-
     @Provides
     @NoticeActivityScope
     Contract.View view(NoticesActivity noticesActivity) {

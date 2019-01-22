@@ -1,11 +1,8 @@
 package com.sagar.ccetmobileapp;
 
-import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
-import com.sagar.ccetmobileapp.services.ErrorConverterService;
-import com.sagar.ccetmobileapp.services.TokenService;
-import com.sagar.ccetmobileapp.services.ValidatorService;
-
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 
 
 /**
@@ -13,16 +10,17 @@ import dagger.Component;
  */
 
 @ApplicationScope
-@Component(modules = {ApplicationModule.class, NetworkModule.class})
+@Component(modules = {AndroidInjectionModule.class, ApplicationModule.class,ActivityProvider.class})
 public interface ApplicationComponent {
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(android.app.Application application);
+
+        ApplicationComponent build();
+    }
 
     void inject(Application application);
 
-    TokenService tokenService();
-
-    CCETRepositoryInteractor ccetRepositoryInteractor();
-
-    ValidatorService validatorService();
-
-    ErrorConverterService errorConverterService();
 }

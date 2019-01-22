@@ -14,15 +14,13 @@ import io.reactivex.disposables.CompositeDisposable;
 @HomeActivityScope
 public class Presenter implements Contract.Presenter {
 
-
-    @Inject
-    Contract.View view;
+    private Contract.View view;
 
     private CompositeDisposable compositeDisposable;
 
     @Inject
-    public Presenter(HomeActivityComponent component) {
-        component.inject(this);
+    public Presenter(Contract.View view) {
+        this.view = view;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

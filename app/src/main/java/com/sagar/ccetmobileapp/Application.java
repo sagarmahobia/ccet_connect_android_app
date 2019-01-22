@@ -4,29 +4,31 @@ import android.app.Activity;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
 /**
  * Created by SAGAR MAHOBIA on 29-Oct-18. at 16:39
  */
-public class Application extends android.app.Application {
+public class Application extends android.app.Application implements HasActivityInjector {
 
     @Inject
-    ApplicationComponent applicationComponent;
+    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
+
+        DaggerApplicationComponent
+                .builder()
+                .application(this)
                 .build()
                 .inject(this);
     }
 
-
-    public ApplicationComponent getApplicationComponent() {
-        return applicationComponent;
-    }
-
-    public static Application getApplication(Activity activity) {
-        return (Application) activity.getApplication();
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return activityDispatchingAndroidInjector;
     }
 }
