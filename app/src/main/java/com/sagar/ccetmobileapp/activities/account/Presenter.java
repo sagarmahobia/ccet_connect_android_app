@@ -7,9 +7,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.sagar.ccetmobileapp.network.errors.ErrorCode;
 import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
 import com.sagar.ccetmobileapp.network.models.Error;
-import com.sagar.ccetmobileapp.network.models.OtpModel;
-import com.sagar.ccetmobileapp.network.models.SignInModel;
-import com.sagar.ccetmobileapp.network.models.SignUpModel;
+import com.sagar.ccetmobileapp.network.models.serverentities.Otp;
+import com.sagar.ccetmobileapp.network.models.serverentities.User;
 import com.sagar.ccetmobileapp.services.ErrorConverterService;
 import com.sagar.ccetmobileapp.services.TokenService;
 import com.sagar.ccetmobileapp.services.ValidatorService;
@@ -43,7 +42,7 @@ class Presenter implements Contract.Presenter {
     @Inject
     TokenService tokenService;
 
-    private String signUpEmail;
+    private int otpId;
 
     @Inject
     Presenter(AccountingActivityComponent component) {
@@ -56,52 +55,28 @@ class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void onSingUp(String firstName,
-                         String lastName,
-                         String email,
+    public void onSingUp(String email,
                          String password,
-                         String confirmPassword,
-                         String admissionYear,
-                         String admissionSem) {
+                         String confirmPassword) {
 
-
-        int admissionSemester;
-
-        try {
-            admissionSemester = Integer.parseInt(admissionSem);
-            Integer.parseInt(admissionSem);
-        } catch (NumberFormatException e) {
-            view.showMessage("Please select valid admission year and semester.");
-            return;
-        }
-
-
-        if (firstName.isEmpty()
-                || lastName.isEmpty()
-                || !validatorService.isValidEmail(email)
+        if (!validatorService.isValidEmail(email)
                 || !validatorService.isValidPassword(password, confirmPassword)
-                || !(admissionYear.length() == 4)
-                || !(admissionSemester >= 1 && admissionSemester <= 8)
                 ) {
             view.showMessage("Please enter valid information.");
             return;
         }
-        signUpEmail = email;
-        SignUpModel signUpModel = new SignUpModel();
-        signUpModel.setFirstName(firstName);
-        signUpModel.setLastName(lastName);
-        signUpModel.setEmail(email);
-        signUpModel.setPassWord(password);
-        signUpModel.setAdmissionYear(admissionYear);
-        signUpModel.setAdmissionSemester(admissionSemester);
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassWord(password);
 
 
         view.showProgress();
-        disposable.add(interactor.signUp(signUpModel)
-                .subscribe((status) -> {
+        disposable.add(interactor.signUp(user)
+                .subscribe((otp) -> {
                     view.hideProgress();
                     view.showSignUpOtpScreen();
-
+                    otpId = otp.getId();
                 }, error -> {
                     view.hideProgress();
                     if (error instanceof HttpException) {
@@ -134,12 +109,12 @@ class Presenter implements Contract.Presenter {
             view.showMessage("Please enter valid email and password.");
             return;
         }
-        SignInModel signInModel = new SignInModel();
-        signInModel.setEmail(email);
-        signInModel.setPassword(password);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassWord(password);
 
         view.showProgress();
-        disposable.add(interactor.signIn(signInModel)
+        disposable.add(interactor.signIn(user)
                 .subscribe(authStatus -> {
                     view.hideProgress();
                         String token = authStatus.getToken();
@@ -181,12 +156,12 @@ class Presenter implements Contract.Presenter {
             return;
         }
 
-        OtpModel otpModel = new OtpModel();
-        otpModel.setOtp(otp);
-        otpModel.setEmail(signUpEmail);
+        Otp otpBean = new Otp();
+        otpBean.setOtp(otp);
+        otpBean.setId(otpId);
 
         view.showProgress();
-        disposable.add(interactor.verifyOtp(otpModel).
+        disposable.add(interactor.verifyOtp(otpBean).
                 subscribe(authStatus -> {
                     view.hideProgress();
                     tokenService.saveToken(authStatus.getToken());

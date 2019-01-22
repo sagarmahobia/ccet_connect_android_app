@@ -1,4 +1,6 @@
-package com.sagar.ccetmobileapp.network.models.assignments;
+package com.sagar.ccetmobileapp.network.models;
+
+import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 
 import java.util.List;
 

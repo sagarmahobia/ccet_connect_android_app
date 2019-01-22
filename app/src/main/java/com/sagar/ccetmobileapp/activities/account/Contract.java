@@ -24,7 +24,7 @@ public interface Contract {
     }
 
     interface Presenter extends LifecycleObserver {
-        void onSingUp(String firstName, String lastName, String email, String password, String confirmPassword, String admissionYear, String admissionSem);
+        void onSingUp(String email, String password, String confirmPassword);
 
         void onSignIn(String loginEmail, String loginPassword);
 

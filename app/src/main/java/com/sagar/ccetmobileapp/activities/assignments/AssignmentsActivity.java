@@ -9,13 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
-import com.sagar.ccetmobileapp.network.models.assignments.Assignment;
+import com.sagar.ccetmobileapp.network.models.Branches;
+import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,8 +39,17 @@ public class AssignmentsActivity extends AppCompatActivity implements Contract.V
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.branch_spinner)
+    Spinner branchSpinner;
+
+    @BindView(R.id.semester_spinner)
+    Spinner semesterSpinner;
+
     @BindView(R.id.error_message)
     TextView errorMessage;
+
+    private int selectedBranch;
+    private int selectedSemester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +71,54 @@ public class AssignmentsActivity extends AppCompatActivity implements Contract.V
                 .inject(this);
 
         getLifecycle().addObserver(presenter);
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.load());
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.load(selectedBranch, selectedSemester));
+        setUpSpinners();
+    }
+
+    private void setUpSpinners() {
+
+
+        List<String> semester = new ArrayList<>();
+        semester.add(0, "Select Semester");
+        for (int i = 1; i <= 8; i++) {
+            semester.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> semesterAdapter
+                = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, semester);
+        semesterSpinner.setAdapter(semesterAdapter);
+        semesterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSemester = position;
+                presenter.load(selectedBranch, selectedSemester);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        List<String> branchesList = Branches.getList();
+        branchesList.add(0, "Select Branch");
+        ArrayAdapter<String> branchesAdapter
+                = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, branchesList);
+        branchSpinner.setAdapter(branchesAdapter);
+        branchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = branchesAdapter.getItem(position);
+                selectedBranch = Branches.getBranch(item).getBranchId();
+                presenter.load(selectedBranch, selectedSemester);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     @Override
@@ -80,7 +141,7 @@ public class AssignmentsActivity extends AppCompatActivity implements Contract.V
 
     @Override
     public void hideAssignments() {
-        assignmentContainer.setVerticalGravity(View.GONE);
+        assignmentContainer.setVisibility(View.GONE);
     }
 
     @Override

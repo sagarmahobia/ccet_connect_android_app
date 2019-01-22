@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.sagar.ccetmobileapp.network.interactors.CCETRepositoryInteractor;
-import com.sagar.ccetmobileapp.network.models.assignments.Assignment;
+import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 
 import java.util.List;
 
@@ -35,13 +35,20 @@ public class Presenter implements Contract.Presenter {
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void onCreate() {
         disposable = new CompositeDisposable();
-        load();
     }
 
     @Override
-    public void load() {
+    public void load(int branchId, int semester) {
+
+        if (branchId == 0 || semester == 0) {
+            return;
+        }
+
+        Assignment assignment = new Assignment();
+        assignment.setSemester(semester);
+        assignment.setBranchId(branchId);
         view.showProgress();
-        disposable.add(interactor.getAssignments().subscribe(a -> {
+        disposable.add(interactor.getAssignments(assignment).subscribe(a -> {
             List<Assignment> assignments = a.getAssignments();
             if (!assignments.isEmpty()) {
                 view.hideProgress();
