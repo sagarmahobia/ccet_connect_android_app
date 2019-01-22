@@ -24,18 +24,13 @@ import okhttp3.ResponseBody;
 
 @AccountingActivityScope
 class Presenter implements Contract.Presenter {
+    private Contract.View view;
 
-    @Inject
-    Contract.View view;
+    private CCETRepositoryInteractor interactor;
 
-    @Inject
-    CCETRepositoryInteractor interactor;
+    private ValidatorService validatorService;
 
-    @Inject
-    ValidatorService validatorService;
-
-    @Inject
-    ErrorConverterService errorConverterService;
+    private ErrorConverterService errorConverterService;
 
     private CompositeDisposable disposable;
 
@@ -45,8 +40,11 @@ class Presenter implements Contract.Presenter {
     private int otpId;
 
     @Inject
-    Presenter(AccountingActivityComponent component) {
-        component.inject(this);
+    Presenter(Contract.View view, CCETRepositoryInteractor interactor, ValidatorService validatorService, ErrorConverterService errorConverterService) {
+        this.view = view;
+        this.interactor = interactor;
+        this.validatorService = validatorService;
+        this.errorConverterService = errorConverterService;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

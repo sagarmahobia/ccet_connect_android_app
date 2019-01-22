@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
 import com.sagar.ccetmobileapp.activities.notices.adapter.NoticesAdapter;
 
@@ -20,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class NoticesActivity extends AppCompatActivity implements Contract.View {
 
@@ -40,6 +40,8 @@ public class NoticesActivity extends AppCompatActivity implements Contract.View 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notices);
 
@@ -50,12 +52,6 @@ public class NoticesActivity extends AppCompatActivity implements Contract.View 
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        DaggerNoticesActivityComponent.builder()
-                .applicationComponent(Application.getApplication(this).getApplicationComponent())
-                .noticesActivityModule(new NoticesActivityModule(this))
-                .build()
-                .inject(this);
 
         getLifecycle().addObserver(presenter);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.load());

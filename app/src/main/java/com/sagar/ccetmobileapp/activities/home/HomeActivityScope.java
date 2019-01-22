@@ -10,6 +10,6 @@ import javax.inject.Scope;
  */
 @Retention(RetentionPolicy.CLASS)
 @Scope
-@interface HomeActivityScope {
+public @interface HomeActivityScope {
 
 }

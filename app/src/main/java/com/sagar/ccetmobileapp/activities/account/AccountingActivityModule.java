@@ -10,19 +10,6 @@ import dagger.Provides;
 @Module
 public class AccountingActivityModule {
 
-    private AccountingActivity accountingActivity;
-
-
-    AccountingActivityModule(AccountingActivity accountingActivity) {
-        this.accountingActivity = accountingActivity;
-    }
-
-    @AccountingActivityScope
-    @Provides
-    AccountingActivity getAccountingActivity() {
-        return accountingActivity;
-    }
-
     @AccountingActivityScope
     @Provides
     Contract.View view(AccountingActivity accountingActivity) {

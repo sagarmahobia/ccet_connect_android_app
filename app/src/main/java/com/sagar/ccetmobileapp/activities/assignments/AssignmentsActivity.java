@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
 import com.sagar.ccetmobileapp.network.models.Branches;
 import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
@@ -27,6 +26,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class AssignmentsActivity extends AppCompatActivity implements Contract.View {
 
@@ -53,6 +53,8 @@ public class AssignmentsActivity extends AppCompatActivity implements Contract.V
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignments);
 
@@ -63,12 +65,6 @@ public class AssignmentsActivity extends AppCompatActivity implements Contract.V
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
-        DaggerAssignmentsComponent.builder()
-                .applicationComponent(Application.getApplication(this).getApplicationComponent())
-                .assignmentsModule(new AssignmentsModule(this))
-                .build()
-                .inject(this);
 
         getLifecycle().addObserver(presenter);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.load(selectedBranch, selectedSemester));

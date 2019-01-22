@@ -22,7 +22,7 @@ public class NoticesAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
     private Contract.Presenter presenter;
 
     @Inject
-    public NoticesAdapter(Contract.Presenter presenter) {
+    NoticesAdapter(Contract.Presenter presenter) {
         this.presenter = presenter;
     }
 

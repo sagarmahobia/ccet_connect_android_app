@@ -11,13 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class AccountingActivity extends AppCompatActivity implements Contract.View {
 
@@ -75,6 +75,8 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_accounting);
@@ -85,13 +87,6 @@ public class AccountingActivity extends AppCompatActivity implements Contract.Vi
         if (actionBar != null) {
             actionBar.hide();
         }
-
-        DaggerAccountingActivityComponent.
-                builder().
-                applicationComponent(Application.getApplication(this).getApplicationComponent()).
-                accountingActivityModule(new AccountingActivityModule(this)).
-                build().
-                inject(this);
 
         getLifecycle().addObserver(presenter);
 

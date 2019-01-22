@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.sagar.ccetmobileapp.Application;
 import com.sagar.ccetmobileapp.R;
 import com.sagar.ccetmobileapp.activities.account.AccountingActivity;
 import com.sagar.ccetmobileapp.activities.assignments.AssignmentsActivity;
@@ -26,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Contract.View {
@@ -59,6 +59,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -73,10 +75,6 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        DaggerHomeActivityComponent.builder()
-                .applicationComponent(Application.getApplication(this).getApplicationComponent())
-                .homeActivityModule(new HomeActivityModule(this))
-                .build().inject(this);
 
         getLifecycle().addObserver(presenter);
 
