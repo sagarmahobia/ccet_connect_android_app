@@ -1,5 +1,4 @@
-package com.sagar.ccetmobileapp.activities.host.assignments;
-
+package com.sagar.ccetmobileapp.activities.host.syllabus;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -15,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sagar.ccetmobileapp.R;
 import com.sagar.ccetmobileapp.network.models.Branches;
-import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
+import com.sagar.ccetmobileapp.network.models.serverentities.Syllabus;
 import com.sagar.ccetmobileapp.responsemodel.Response;
 import com.sagar.ccetmobileapp.responsemodel.Status;
 
@@ -34,17 +33,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AssignmentsFragment extends Fragment {
+
+public class SyllabusFragment extends Fragment {
 
 
     @Inject
-    AssignmentsFragmentViewModelFactory viewModelFactory;
+    SyllabusFragmentViewModelFactory viewModelFactory;
 
-    @BindView(R.id.assignments_container)
-    LinearLayout assignmentContainer;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -58,7 +53,16 @@ public class AssignmentsFragment extends Fragment {
     @BindView(R.id.error_message)
     TextView errorMessage;
 
-    private AssignmentsFragmentViewModel viewModel;
+    @BindView(R.id.syllabus_container)
+    View syllabusContainer;
+
+    @BindView(R.id.semester_no)
+    TextView semesterNo;
+
+    @BindView(R.id.download_button)
+    Button downloadButton;
+
+    private SyllabusFragmentViewModel viewModel;
 
     private int selectedBranch;
     private int selectedSemester;
@@ -72,14 +76,14 @@ public class AssignmentsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(AssignmentsFragmentViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SyllabusFragmentViewModel.class);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_assignments, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_syllabus, container, false);
         ButterKnife.bind(this, inflate);
         return inflate;
     }
@@ -116,7 +120,7 @@ public class AssignmentsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                showMessage("Select your branch and semester");
             }
         });
 
@@ -141,54 +145,48 @@ public class AssignmentsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                showMessage("Select your branch and semester");
 
             }
         });
 
     }
 
-    private void onListResponse(Response<List<Assignment>> response) {
+    private void onListResponse(Response<Syllabus> response) {
         if (response.getStatus() == Status.SUCCESS) {
             hideProgress();
-            List<Assignment> data = response.getData();
-            if (!data.isEmpty()) {
+            Syllabus data = response.getData();
+            if (data != null) {
                 hideMessage();
-                showAssignments(data);
+                showSyllabus();
+                semesterNo.setText(String.valueOf(data.getSemester()));
+
+                downloadButton.setOnClickListener(v -> {
+                    openLink(data.getLink());
+                });
             } else {
-                hideAssignments();
-                showMessage("No assignments available");
+                hideSyllabus();
+                showMessage("Syllabus not available available");
             }
         } else if (response.getStatus() == Status.ERROR) {
             hideProgress();
-            hideAssignments();
+            hideSyllabus();
             showMessage("Something went wrong.");
         } else if (response.getStatus() == Status.LOADING) {
             showProgress();
             hideMessage();
-            hideAssignments();
+            hideSyllabus();
         }
     }
 
 
-    public void showAssignments(List<Assignment> assignments) {
-        assignmentContainer.removeAllViews();
-        assignmentContainer.setVisibility(View.VISIBLE);
-        for (Assignment assignment : assignments) {
-            View inflate = LayoutInflater.from(this.getContext()).inflate(R.layout.assignments_item_layout, assignmentContainer, false);
+    public void showSyllabus() {
+        syllabusContainer.setVisibility(View.VISIBLE);
 
-            TextView assignmentNo = inflate.findViewById(R.id.assignment_no);
-            assignmentNo.setText(String.valueOf(assignment.getAssignmentNo()));
-
-            TextView lastDate = inflate.findViewById(R.id.assignment_last_date);
-            lastDate.setText(assignment.getLastDate());
-
-            inflate.findViewById(R.id.download_button).setOnClickListener(v -> openLink(assignment.getLink()));
-            assignmentContainer.addView(inflate);
-        }
     }
 
-    public void hideAssignments() {
-        assignmentContainer.setVisibility(View.GONE);
+    public void hideSyllabus() {
+        syllabusContainer.setVisibility(View.GONE);
     }
 
     public void showMessage(String message) {
@@ -212,5 +210,6 @@ public class AssignmentsFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
+
 
 }

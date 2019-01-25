@@ -18,6 +18,9 @@ import com.sagar.ccetmobileapp.activities.host.home.HomeFragmentScope;
 import com.sagar.ccetmobileapp.activities.host.notices.NoticeFragmentScope;
 import com.sagar.ccetmobileapp.activities.host.notices.NoticesFragment;
 import com.sagar.ccetmobileapp.activities.host.notices.NoticesFragmentModule;
+import com.sagar.ccetmobileapp.activities.host.syllabus.SyllabusFragment;
+import com.sagar.ccetmobileapp.activities.host.syllabus.SyllabusFragmentModule;
+import com.sagar.ccetmobileapp.activities.host.syllabus.SyllabusFragmentScope;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -53,5 +56,9 @@ public abstract class FragmentProvider {
     @OtpFragmentScope
     @ContributesAndroidInjector(modules = OtpFragmentModule.class)
     abstract OtpFragment otpFragment();
+
+    @SyllabusFragmentScope
+    @ContributesAndroidInjector(modules = SyllabusFragmentModule.class)
+    abstract SyllabusFragment syllabusFragment();
 
 }

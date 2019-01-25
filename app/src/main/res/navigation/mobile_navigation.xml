@@ -24,17 +24,25 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_syllabusFragment"
+            app:destination="@id/syllabusFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/noticesFragment"
+        android:name="com.sagar.ccetmobileapp.activities.host.notices.NoticesFragment"
+        android:label="Notices"
+        tools:layout="@layout/fragment_notices" />
     <fragment
         android:id="@+id/assignmentsFragment"
         android:name="com.sagar.ccetmobileapp.activities.host.assignments.AssignmentsFragment"
         android:label="Assignments"
         tools:layout="@layout/fragment_assignments" />
     <fragment
-        android:id="@+id/noticesFragment"
-        android:name="com.sagar.ccetmobileapp.activities.host.notices.NoticesFragment"
-        android:label="Notices"
-        tools:layout="@layout/fragment_notices" />
+        android:id="@+id/syllabusFragment"
+        android:name="com.sagar.ccetmobileapp.activities.host.syllabus.SyllabusFragment"
+        android:label="Syllabus"
+        tools:layout="@layout/fragment_syllabus" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.sagar.ccetmobileapp.activities.host.account.login.LoginFragment"
@@ -58,7 +66,6 @@
         android:name="com.sagar.ccetmobileapp.activities.host.account.otp.OtpFragment"
         android:label="Confirm Otp"
         tools:layout="@layout/fragment_otp">
-
         <action
             android:id="@+id/popUpToHomeFragment"
             app:destination="@id/homeFragment"

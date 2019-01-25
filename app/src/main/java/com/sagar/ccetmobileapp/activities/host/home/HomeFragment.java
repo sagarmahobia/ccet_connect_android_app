@@ -69,9 +69,7 @@ public class HomeFragment extends Fragment {
 
         assignmentsCard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_assignmentsFragment));
 
-        syllabusCard.setOnClickListener(v -> {
-            //todo
-        });
+        syllabusCard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_syllabusFragment));
 
         return inflate;
     }

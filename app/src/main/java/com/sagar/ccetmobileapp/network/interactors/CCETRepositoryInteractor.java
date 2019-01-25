@@ -4,8 +4,10 @@ import com.sagar.ccetmobileapp.ApplicationScope;
 import com.sagar.ccetmobileapp.network.models.Assignments;
 import com.sagar.ccetmobileapp.network.models.AuthStatus;
 import com.sagar.ccetmobileapp.network.models.Notices;
+import com.sagar.ccetmobileapp.network.models.Syllabuses;
 import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 import com.sagar.ccetmobileapp.network.models.serverentities.Otp;
+import com.sagar.ccetmobileapp.network.models.serverentities.Syllabus;
 import com.sagar.ccetmobileapp.network.models.serverentities.User;
 import com.sagar.ccetmobileapp.network.repository.CCETRepository;
 
@@ -63,6 +65,13 @@ public class CCETRepositoryInteractor implements CCETRepository {
     @Override
     public Single<Notices> getNoticesSingle() {
         return repository.getNoticesSingle()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<Syllabuses> getSyllabuses(Syllabus syllabus) {
+        return repository.getSyllabuses(syllabus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
