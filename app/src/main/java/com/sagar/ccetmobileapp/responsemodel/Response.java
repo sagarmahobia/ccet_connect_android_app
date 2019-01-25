@@ -43,7 +43,7 @@ public class Response<T> {
     }
 
     @NonNull
-    public static <T> Response success(@NonNull T data) {
+    public static <T> Response success(T data) {
         return new Response<T>(SUCCESS, data, null);
     }
 

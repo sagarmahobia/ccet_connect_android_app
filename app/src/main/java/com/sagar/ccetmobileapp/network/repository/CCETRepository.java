@@ -3,8 +3,10 @@ package com.sagar.ccetmobileapp.network.repository;
 import com.sagar.ccetmobileapp.network.models.Assignments;
 import com.sagar.ccetmobileapp.network.models.AuthStatus;
 import com.sagar.ccetmobileapp.network.models.Notices;
+import com.sagar.ccetmobileapp.network.models.Syllabuses;
 import com.sagar.ccetmobileapp.network.models.serverentities.Assignment;
 import com.sagar.ccetmobileapp.network.models.serverentities.Otp;
+import com.sagar.ccetmobileapp.network.models.serverentities.Syllabus;
 import com.sagar.ccetmobileapp.network.models.serverentities.User;
 
 import io.reactivex.Single;
@@ -31,4 +33,7 @@ public interface CCETRepository {
 
     @GET("api/v1/protected/notices")
     Single<Notices> getNoticesSingle();
+
+    @POST("api/v1/public/syllabuses")
+    Single<Syllabuses> getSyllabuses(@Body Syllabus syllabus);
 }
