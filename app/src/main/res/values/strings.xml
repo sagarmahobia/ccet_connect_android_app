@@ -1,20 +1,12 @@
 <resources>
     <string name="app_name">CCETMobileApp</string>
 
-    <string-array name="semesters">
-        <item>Admission Semester</item>
-        <item>1st Semester</item>
-        <item>3rd Semester</item>
-        <item>5th Semester</item>
-    </string-array>
+    <string name="title_activity_home">CCET</string>
+    <string name="nav_header_title">CCET</string>
+    <string name="nav_header_subtitle">Christian College of Engineering &amp; Technology</string>
+    <string name="nav_header_desc">Navigation header</string>
 
-    <string-array name="years">
-        <item>Admission Year</item>
-        <item>2015</item>
-        <item>2016</item>
-        <item>2017</item>
-        <item>2018</item>
-        <item>2019</item>
-    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
